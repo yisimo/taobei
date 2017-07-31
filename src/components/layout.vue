@@ -1,7 +1,7 @@
 <template>
   <div>
     <header class="app-head">
-      <sectiion class="app-head-inner">
+      <section class="app-head-inner">
         <img src="../assets/logo.png" alt="icon">
         <nav class="head-nav">
           <ul class="nav-list">
@@ -12,28 +12,43 @@
             <li>关于</li>
           </ul>
         </nav>
-      </sectiion>
+      </section>
     </header>
 
-    <main class="container">content</main>
+    <main class="container">
+      <keep-alive>
+        <router-view></router-view>
+      </keep-alive>
+    </main>
+
 
     <footer class="app-foot">
-      <p>&copy; 2017 一丝墨</p>
+      <p>版权所有 &copy; 2017 一丝墨</p>
     </footer>
   </div>
 </template>
 
 <script>
 export default {
+  created:function () {
+      /*使用vue-resource进行ajax数据请求*/
+    this.$http.get('getList')
+      .then(function (data) {
+        console.log(data)
+      },function (err) {
+        console.log(err)
+      })
+  },
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+
     }
   }
 }
 </script>
 
 <style>
+  /*reset*/
   html, body, div, span, applet, object, iframe,
   h1, h2, h3, h4, h5, h6, p, blockquote, pre,
   a, abbr, acronym, address, big, cite, code,

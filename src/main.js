@@ -3,12 +3,15 @@
 import Vue from 'vue'
 import App from './App'
 import VueRouter from 'vue-router'
+import VueResource from 'vue-resource'
 import Layout from './components/layout.vue'
+import IndexPage from './pages/index.vue'
 
-Vue.config.productionTip = false
+
 Vue.use(VueRouter)
+Vue.use(VueResource)
 
-/*let router = new VueRouter({
+let router = new VueRouter({
   mode:'history',
   routes:[
     {
@@ -16,11 +19,11 @@ Vue.use(VueRouter)
       component: IndexPage
     }
   ]
-})*/
+})
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
-  /*router,*/
+  router,
   template: '<Layout/>',
   components: { Layout }
 })
