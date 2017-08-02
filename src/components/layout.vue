@@ -9,7 +9,7 @@
             <li class="nav-pile">|</li>
             <li>注册</li>
             <li class="nav-pile">|</li>
-            <li>关于</li>
+            <li @click="aboutClick">关于</li>
           </ul>
         </nav>
       </section>
@@ -25,14 +25,28 @@
     <footer class="app-foot">
       <p>版权所有 &copy; 2017 一丝墨</p>
     </footer>
+
+    <my-dialog :is-show="isShowAboutDialog" @on-close="closeDialog('isShowAboutDialog')"></my-dialog>
   </div>
 </template>
 
 <script>
+  import Dialog from "../components/base/dialog.vue"
 export default {
+  components:{
+    myDialog:Dialog
+  },
   data () {
     return {
-
+      isShowAboutDialog: false
+    }
+  },
+  methods:{
+    aboutClick(){
+        this.isShowAboutDialog = true
+    },
+    closeDialog(attr){
+        this[attr] = false
     }
   }
 }
