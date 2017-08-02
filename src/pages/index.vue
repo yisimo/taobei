@@ -19,13 +19,14 @@
         <h2>最新消息</h2>
         <ul>
           <li v-for="item in newsList">
-            <a :href="item.url" class="news-item">{{ item.title }}</a>
+            <a :href="item.url" class="new-item">{{ item.title }}</a>
           </li>
         </ul>
       </div>
     </section>
 
     <section class="index-right">
+      <slide-show :slides="slides" :inv="invTime"></slide-show>
       <div class="index-board-list">
         <div
           class="index-board-item"
@@ -43,98 +44,119 @@
 </template>
 
 <script>
+  import slideShow from '../components/slideShow.vue'
+
   export default{
-      data(){
-          return{
-             productList:{
-               pc:{
-                 title:'PC产品',
-                 list:[
-                   {
-                     name:'数据统计',
-                     url:'https://bigdata.163yun.com/'
-                   },
-                   {
-                     name:'数据预测',
-                     url:'https://www.umeng.com/'
-                   },
-                   {
-                     name:'流量分析',
-                     url:'http://www.chinaz.com/',
-                     hot:true,
-                   },
-                   {
-                     name:'广告发布',
-                     url:'http://e.qq.com/ads/400'
-                   }
-                 ]
-               },
-               app:{
-                 title:'手机应用',
-                 last:true,
-                 list:[
-                   {
-                     name: '91助手',
-                     url: 'http://weixin.com'
-                   },
-                   {
-                     name: '产品助手',
-                     url: 'http://twitter.com',
-                     hot:true,
-                   },
-                   {
-                     name: '智能地图',
-                     url: 'http://maps.com'
-                   },
-                   {
-                     name: '团队语音',
-                     url: 'http://phone.com'
-                   }
-                 ]
-               }
+      components:{
+        slideShow
+      },
+    created:function () {
+      /*使用vue-resource进行ajax数据请求*/
+      this.$http.get('api/getNewsList')
+        .then((res) => {
+          this.newsList = res.data
+        },(err) => {
+          console.log(err)
+        })
+    },
+    data(){
+        return{
+          invTime: 2000,
+          slides:[
+            {
+              src:require("../assets/slideShow/pic1.jpg"),
+              title:'React.js入门与实战',
+              href:'detail/analysis'
+            },
+            {
+              src:require("../assets/slideShow/pic2.jpg"),
+              title:'Android高级开发',
+              href:'detail/count'
+            },
+            {
+              src:require("../assets/slideShow/pic3.jpg"),
+              title:'玩转算法面试',
+              href:'http://xxx.xxx.com'
+            },
+            {
+              src:require("../assets/slideShow/pic4.jpg"),
+              title:'开发跨平台Github App',
+              href:'detail/forecast'
+            }
+
+          ],
+           productList:{
+             pc:{
+               title:'PC产品',
+               list:[
+                 {
+                   name:'数据统计',
+                   url:'https://bigdata.163yun.com/'
+                 },
+                 {
+                   name:'数据预测',
+                   url:'https://www.umeng.com/'
+                 },
+                 {
+                   name:'流量分析',
+                   url:'http://www.chinaz.com/',
+                   hot:true,
+                 },
+                 {
+                   name:'广告发布',
+                   url:'http://e.qq.com/ads/400'
+                 }
+               ]
              },
-            newsList:[
-              {
-                title:'腾讯新闻',
-                url:'http://news.qq.com/',
-              },
-              {
-                title:'新浪新闻',
-                url:'http://news.sina.com/'
-              },
-              {
-                title:'网易新闻',
-                url:'http://news.163.com/',
-              },
-              {
-                title:'搜狐新闻',
-                url:'http://news.sohu.com/'
-              }
-            ],
-            boardList:[
-              {
-                title:'开放产品',
-                description:'开放产品是定位于所有开放产品',
-                id:'car',
-              },
-              {
-                title:'品牌营销',
-                description:'品牌营销帮助你的产品更好地找到定位',
-                id:'loud',
-              },
-              {
-                title:'使命必达',
-                description:'使命必达快速迭代永远保持最前端的速度',
-                id:'earth',
-              },
-              {
-                title:'勇攀高峰',
-                description:'帮你勇闯高峰，到达事业的顶峰',
-                id:'hill',
-              },
-            ],
-          }
-      }
+             app:{
+               title:'手机应用',
+               last:true,
+               list:[
+                 {
+                   name: '91助手',
+                   url: 'http://weixin.com'
+                 },
+                 {
+                   name: '产品助手',
+                   url: 'http://twitter.com',
+                   hot:true,
+                 },
+                 {
+                   name: '智能地图',
+                   url: 'http://maps.com'
+                 },
+                 {
+                   name: '团队语音',
+                   url: 'http://phone.com'
+                 }
+               ]
+             }
+           },
+          newsList:[],
+          boardList:[
+            {
+              title:'开放产品',
+              description:'开放产品是定位于所有开放产品',
+              id:'car',
+            },
+            {
+              title:'品牌营销',
+              description:'品牌营销帮助你的产品更好地找到定位',
+              id:'loud',
+            },
+            {
+              title:'使命必达',
+              description:'使命必达快速迭代永远保持最前端的速度',
+              id:'earth',
+            },
+            {
+              title:'勇攀高峰',
+              description:'帮你勇闯高峰，到达事业的顶峰',
+              id:'hill',
+            },
+          ],
+        }
+    }
 
   }
 </script>

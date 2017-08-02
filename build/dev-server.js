@@ -8,7 +8,6 @@ if (!process.env.NODE_ENV) {
 var opn = require('opn')
 var path = require('path')
 var express = require('express')
-var jsonServer = require('json-server')
 var webpack = require('webpack')
 var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = require('./webpack.dev.conf')
@@ -22,7 +21,6 @@ var autoOpenBrowser = !!config.dev.autoOpenBrowser
 var proxyTable = config.dev.proxyTable
 
 var app = express()
-var jsonServer = new jsonServer()
 var compiler = webpack(webpackConfig)
 
 var devMiddleware = require('webpack-dev-middleware')(compiler, {
@@ -64,6 +62,54 @@ app.use(hotMiddleware)
 // serve pure static assets
 var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
 app.use(staticPath, express.static('./static'))
+
+//使用json-server启动测试环境
+/*var jsonServer = require('json-server')
+var apiServer = jsonServer.create()
+var apiRouter = jsonServer.router('db.json')
+var middlewares = jsonServer.defaults()
+
+apiServer.use(middlewares)
+apiServer.use('/api',apiRouter)
+apiServer.listen(port+1,function (err) {
+  if(err){
+    console.log(err)
+    return
+  }
+  console.log('Listening at http://localhost:'+(port+1))
+})*/
+
+//使用express启动测试环境
+var apiServer = express()
+var bodyParser = require('body-parser')
+apiServer.use(bodyParser.urlencoded({ extended: true }))
+apiServer.use(bodyParser.json())
+var apiRouter = express.Router()
+var fs = require('fs')
+apiRouter.route('/:apiName')
+  .all(function (req, res) {
+    fs.readFile('./db.json', 'utf8', function (err, data) {
+      if (err) throw err
+      var data = JSON.parse(data)
+      if (data[req.params.apiName]) {
+        res.json(data[req.params.apiName])
+      }
+      else {
+        res.send('no such api name')
+      }
+
+    })
+  })
+
+
+apiServer.use('/api', apiRouter);
+apiServer.listen(port + 1, function (err) {
+  if (err) {
+    console.log(err)
+    return
+  }
+  console.log('Listening at http://localhost:' + (port + 1) + '\n')
+})
 
 var uri = 'http://localhost:' + port
 

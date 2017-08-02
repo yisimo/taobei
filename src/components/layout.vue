@@ -30,15 +30,6 @@
 
 <script>
 export default {
-  created:function () {
-      /*使用vue-resource进行ajax数据请求*/
-    this.$http.get('getList')
-      .then(function (data) {
-        console.log(data)
-      },function (err) {
-        console.log(err)
-      })
-  },
   data () {
     return {
 
