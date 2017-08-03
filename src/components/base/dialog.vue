@@ -2,10 +2,12 @@
   <div>
     <section class="dialog-wrap">
       <div class="dialog-cover" v-if="isShow" @click="closeMyself"></div>
-      <div class="dialog-content" v-if="isShow">
-        <p class="dialog-close" @click="closeMyself">&times;</p>
-        <slot>empty</slot>
-      </div>
+      <transition name="drop">
+        <div class="dialog-content" v-if="isShow">
+          <p class="dialog-close" @click="closeMyself">&times;</p>
+          <slot>empty</slot>
+        </div>
+      </transition>
     </section>
   </div>
 </template>
@@ -33,6 +35,17 @@
 </script>
 
 <style>
+  .drop-enter-active{
+    transition: all .5s ease;
+  }
+  .drop-leave-active{
+    transition: all .3s ease;
+    transform: translateY(-500px);
+  }
+  .drop-enter{
+    transform: translateY(-500px);
+  }
+
   .dialog-wrap{
     position: fixed;
     width:100%;

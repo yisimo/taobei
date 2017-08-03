@@ -118,7 +118,7 @@
                  },
                  {
                    name: '产品助手',
-                   url: 'http://twitter.com',
+                   url: 'https://pro.25pp.com/',
                    hot:true,
                  },
                  {
@@ -183,6 +183,9 @@
     -moz-box-shadow: 0 0 1px #ddd;
     box-shadow: 0 0 1px #ddd;
     box-shadow:0 0 1px #ddd;
+  }
+  .index-left-block a:hover{
+    color: #4fc08d;
   }
   .index-left-block .hr{
     margin-bottom: 20px;
@@ -254,7 +257,7 @@
     padding: 10px;
     width: 60px;
   }
-  .lastest-new{
+  .lastest-news{
     min-height: 512px;
   }
   .new-item{

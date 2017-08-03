@@ -5,9 +5,12 @@
         <img src="../assets/logo.png" alt="icon">
         <nav class="head-nav">
           <ul class="nav-list">
-            <li>登录</li>
-            <li class="nav-pile">|</li>
-            <li>注册</li>
+            <li>{{ username }}</li>
+            <li v-if="username !== '' " class="nav-pile">|</li>
+            <li v-if="username !== '' ">退出</li>
+            <li v-if="username == '' " @click="logClick">登录</li>
+            <li v-if="username == '' " class="nav-pile">|</li>
+            <li v-if="username == '' " @click="regClick">注册</li>
             <li class="nav-pile">|</li>
             <li @click="aboutClick">关于</li>
           </ul>
@@ -26,27 +29,55 @@
       <p>版权所有 &copy; 2017 一丝墨</p>
     </footer>
 
-    <my-dialog :is-show="isShowAboutDialog" @on-close="closeDialog('isShowAboutDialog')"></my-dialog>
+    <my-dialog :is-show="isShowLogDialog" @on-close="closeDialog('isShowLogDialog')">
+      <log-form @has-log="onSuccessLog"></log-form>
+    </my-dialog>
+
+    <my-dialog :is-show="isShowRegDialog" @on-close="closeDialog('isShowRegDialog')">
+      <reg-form></reg-form>
+    </my-dialog>
+
+    <my-dialog :is-show="isShowAboutDialog" @on-close="closeDialog('isShowAboutDialog')">
+      <p>本人谢权，花名一丝墨，2015年本科毕业，前端开发工程师，至今工作两年有余，熟悉HTML、CSS、JavaScript、jQuery、Bootstrap，略通VUEjs、webpack,了解Git、SVN等代码管理工具。QQ:1061473663</p>
+    </my-dialog>
   </div>
 </template>
 
 <script>
   import Dialog from "../components/base/dialog.vue"
+  import LogForm from '../components/logForm.vue'
+  import RegForm from '../components/regForm.vue'
 export default {
   components:{
-    myDialog:Dialog
+    myDialog:Dialog,
+    LogForm,
+    RegForm
   },
   data () {
     return {
-      isShowAboutDialog: false
+      isShowAboutDialog: false,
+      isShowLogDialog: false,
+      isShowRegDialog: false,
+      username:''
     }
   },
   methods:{
+    logClick(){
+        this.isShowLogDialog = true
+    },
+    regClick(){
+         this.isShowRegDialog = true
+    },
     aboutClick(){
         this.isShowAboutDialog = true
     },
     closeDialog(attr){
         this[attr] = false
+    },
+    onSuccessLog(data){
+        console.log(data)
+        this.closeDialog('isShowLogDialog')
+        this.username = data.username
     }
   }
 }
@@ -152,5 +183,50 @@ export default {
   .container{
     width: 1200px;
     margin:0 auto;
+  }
+  .hr{
+    height: 1px;
+    width:100%;
+    background: #ddd;
+  }
+  .button{
+    background: #4fc08d;
+    color: #fff;
+    display: inline-block;
+    padding:5px 20px;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  .button:hover{
+    background: #4fc08d;
+  }
+  .g-form-line{
+    padding: 15px 0;
+  }
+  .g-form-label{
+    display: inline-block;
+    width: 100px;
+    font-size: 16px;
+  }
+  .g-form-input{
+    display: inline-block;
+  }
+  .g-form-input input{
+    height: 30px;
+    line-height: 30px;
+    width: 200px;
+    padding:0 10px;
+    vertical-align: middle;
+    border:1px solid #ccc;
+  }
+  .g-form-btn{
+    padding-left: 105px;
+  }
+  .g-form-error{
+    color: red;
+    padding-left: 15px;
+  }
+  .error-text{
+    color: red;
   }
 </style>
