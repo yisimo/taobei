@@ -7,7 +7,7 @@
           <ul class="nav-list">
             <li>{{ username }}</li>
             <li v-if="username !== '' " class="nav-pile">|</li>
-            <li v-if="username !== '' ">退出</li>
+            <li v-if="username !== '' " @click="quit">退出</li>
             <li v-if="username == '' " @click="logClick">登录</li>
             <li v-if="username == '' " class="nav-pile">|</li>
             <li v-if="username == '' " @click="regClick">注册</li>
@@ -34,7 +34,7 @@
     </my-dialog>
 
     <my-dialog :is-show="isShowRegDialog" @on-close="closeDialog('isShowRegDialog')">
-      <reg-form></reg-form>
+      <reg-form @has-register="onSuccessReg"></reg-form>
     </my-dialog>
 
     <my-dialog :is-show="isShowAboutDialog" @on-close="closeDialog('isShowAboutDialog')">
@@ -78,6 +78,14 @@ export default {
         console.log(data)
         this.closeDialog('isShowLogDialog')
         this.username = data.username
+    },
+    onSuccessReg(data){
+        console.log(data)
+      this.closeDialog('isShowRegDialog')
+      this.username = data.username
+    },
+    quit(){
+        this.username = ''
     }
   }
 }
@@ -157,6 +165,7 @@ export default {
   .app-head-inner img{
     width: 50px;
     margin-top: 20px;
+    margin-left: 15px;
   }
   .head-nav{
     float: right;
@@ -193,7 +202,7 @@ export default {
     background: #4fc08d;
     color: #fff;
     display: inline-block;
-    padding:5px 20px;
+    padding:10px 20px;
     border-radius: 3px;
     cursor: pointer;
   }

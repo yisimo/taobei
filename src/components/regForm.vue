@@ -27,7 +27,7 @@
 
       <section class="g-form-line">
         <div class="g-form-btn">
-          <a class="button" @click="onLogin">注册</a>
+          <a class="button" @click="onRegister">注册</a>
         </div>
       </section>
 
@@ -95,7 +95,6 @@
           status = true
           errorText = ""
         }
-
         return{
             status,
             errorText
@@ -115,6 +114,19 @@
               console.log(error)
             })
         }
+      },
+      onRegister(){
+          if(!this.userErrors.status || !this.passwordErrors.status || !this.passwordComErrors.status){
+              this.errorText = "部分选项未通过"
+          }else{
+              this.errorText = ''
+              this.$http.post("api/register",{"username":this.usernameModel,"password":this.passwordModel})
+                .then((res) => {
+                  this.$emit('has-register',res.data)
+                },(error) => {
+                  console.log(error)
+                })
+          }
       }
     }
   }
