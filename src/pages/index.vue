@@ -76,7 +76,7 @@
             {
               src:require("../assets/slideShow/pic3.jpg"),
               title:'玩转算法面试',
-              href:'http://xxx.xxx.com'
+              href:'detail/publish'
             },
             {
               src:require("../assets/slideShow/pic4.jpg"),

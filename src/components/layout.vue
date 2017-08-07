@@ -2,7 +2,9 @@
   <div>
     <header class="app-head">
       <section class="app-head-inner">
-        <img src="../assets/logo.png" alt="icon">
+        <router-link :to="{path:'/'}">
+          <img src="../assets/logo.png" alt="icon">
+        </router-link>
         <nav class="head-nav">
           <ul class="nav-list">
             <li>{{ username }}</li>

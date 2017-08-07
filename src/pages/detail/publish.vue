@@ -11,7 +11,7 @@
           购买数量：
         </div>
         <div class="sales-board-line-right">
-          2
+          <v-counter></v-counter>
         </div>
       </div>
 
@@ -20,7 +20,7 @@
           行业：
         </div>
         <div class="sales-board-line-right">
-          互联网
+          <v-selection :selections="industryList" @on-change="onParamChange('industry',$event)"></v-selection>
         </div>
       </div>
 
@@ -29,7 +29,7 @@
           产品版本：
         </div>
         <div class="sales-board-line-right">
-          5.3
+          <v-m-chooser :selections="versionList" :on-change="onParamChange('version',$event)"></v-m-chooser>
         </div>
       </div>
 
@@ -38,7 +38,7 @@
           有效时间：
         </div>
         <div class="sales-board-line-right">
-          八年
+          <v-chooser :selections="periodList" :on-change="onParamChange('period',$event)"></v-chooser>
         </div>
       </div>
 
@@ -259,12 +259,104 @@
 </template>
 
 <script>
+  import VCounter from '../../components/base/counter.vue'
+  import VChooser from '../../components/base/chooser.vue'
+  import VSelection from '../../components/base/selection.vue'
+  import VMChooser from '../../components/base/multiplyChooser.vue'
   export default{
+      components:{
+        VCounter,
+        VChooser,
+        VSelection,
+        VMChooser
+      },
       data(){
           return{
-
+            version:[],
+            versionList:[
+              {
+                label:'客户版',
+                value:0
+              },
+              {
+                label:'代理商版',
+                value:1
+              },
+              {
+                label:'专家版',
+                value:2
+              },
+            ],
+            industry:{},
+            industryList:[
+              {
+                  label:'互联网',
+                  value:0
+              },
+              {
+                  label:'咨询',
+                  value:1
+              },
+              {
+                  label:'广告',
+                  value:2
+              },
+              {
+                  label:'金融',
+                  value:3
+              },
+              {
+                  label:'保险',
+                  value:4
+              },
+            ],
+            buyType:{},
+            buyTypes:[
+              {
+                label:'入门版',
+                value:0
+              },
+              {
+                label:'中级版',
+                value:1
+              },
+              {
+                label:'高级版',
+                value:2
+              },
+            ],
+            period:[],
+            periodList:[
+              {
+                label:'半年',
+                value:0
+              },
+              {
+                label:'一年',
+                value:1
+              },
+              {
+                label:'三年',
+                value:2
+              },
+            ],
           }
+      },
+      methods:{
+        onParamChange(attr,val){
+            this[attr] = val,
+            this.getPrice()
+        },
+        getPrice(){
+
+        }
       }
   }
 
 </script>
+
+<style scoped>
+  .intro-pic{
+    text-align: center;
+  }
+</style>

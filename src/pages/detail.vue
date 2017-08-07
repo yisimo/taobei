@@ -27,7 +27,7 @@
               {
                   name:'数据统计',
                   path:'count',
-                  /*icon:require('../assets/images/1.png'),*/
+                  icon:require('../assets/images/1.png'),
                   active:'false'
               },
               {

@@ -11,7 +11,7 @@
           产品类型：
         </div>
         <div class="sales-board-line-right">
-          商家版
+          <v-selection :selections="buyTypes" @on-change="onParamChange('buyType',$event)"></v-selection>
         </div>
       </div>
 
@@ -20,7 +20,7 @@
           适用地区：
         </div>
         <div class="sales-board-line-right">
-          华南
+          <v-chooser :selections="regionList" @on-change="onParamChange('region',$event)"></v-chooser>
         </div>
       </div>
 
@@ -30,7 +30,7 @@
           有效时间：
         </div>
         <div class="sales-board-line-right">
-          八年
+          <v-chooser :selections="periodList" @on-change="onParamChange('period',$event)"></v-chooser>
         </div>
       </div>
 
@@ -251,12 +251,91 @@
 </template>
 
 <script>
+  import VSelection from '../../components/base/selection.vue'
+  import VChooser from '../../components/base/chooser.vue'
   export default{
-    data(){
-      return{
-        price:0
+      components:{
+        VSelection,
+        VChooser,
+      },
+      data(){
+        return{
+          price:0,
+          period:{},
+          region:{},
+          buyType:{},
+          buyTypes:[
+            {
+              label:'入门版',
+              value:0
+            },
+            {
+              label:'中级版',
+              value:1
+            },
+            {
+              label:'高级版',
+              value:2
+            },
+          ],
+          periodList:[
+            {
+              label:'半年',
+              value:0
+            },
+            {
+              label:'一年',
+              value:1
+            },
+            {
+              label:'三年',
+              value:2
+            },
+          ],
+          regionList:[
+            {
+              label:'华南',
+              value:0
+            },
+            {
+              label:'华中',
+              value:1
+            },
+            {
+              label:'华东',
+              value:2
+            },
+            {
+              label:'华北',
+              value:3
+            },
+            {
+              label:'西南',
+              value:4
+            },
+            {
+              label:'西北',
+              value:5
+            },
+          ],
+        }
+      },
+      methods:{
+        onParamChange(attr,val){
+            this[attr] = val,
+            this.getPrice()
+        },
+        getPrice(){
+
+        }
       }
-    }
+
   }
 
 </script>
+
+<style scoped>
+  .intro-pic{
+    text-align: center;
+  }
+</style>

@@ -11,7 +11,7 @@
           购买数量：
         </div>
         <div class="sales-board-line-right">
-              2
+           <v-counter></v-counter>
         </div>
       </div>
 
@@ -20,7 +20,7 @@
           产品类型：
         </div>
         <div class="sales-board-line-right">
-              商家版
+          <v-selection :selections="buyTypes" @on-change="onParamChange('buyType',$event)"></v-selection>
         </div>
       </div>
 
@@ -29,7 +29,7 @@
           有效时间：
         </div>
         <div class="sales-board-line-right">
-            八年
+            <v-chooser :selections="periodList" @on-change="onParamChange('period',$event)"></v-chooser>
         </div>
       </div>
 
@@ -38,7 +38,7 @@
           产品版本：
         </div>
         <div class="sales-board-line-right">
-            5.3
+          <v-mul-chooser :selections="versionList" @on-change="onParamChange('versions',$event)" ></v-mul-chooser>
         </div>
       </div>
 
@@ -87,11 +87,75 @@
 </template>
 
 <script>
+  import VSelection from '../../components/base/selection.vue'
+  import VChooser from '../../components/base/chooser.vue'
+  import VMulChooser from '../../components/base/multiplyChooser.vue'
+  import VCounter from '../../components/base/counter.vue'
   export default{
+      components:{
+          VSelection,
+          VChooser,
+          VMulChooser,
+          VCounter
+      },
       data(){
           return{
-              price:0
+              buyType:{},
+              price:0,
+              period:{},
+              version:[],
+              versionList:[
+                {
+                  label:'客户版',
+                  value:0
+                },
+                {
+                  label:'代理商版',
+                  value:1
+                },
+                {
+                  label:'专家版',
+                  value:2
+                },
+              ],
+              buyTypes:[
+                {
+                    label:'入门版',
+                    value:0
+                },
+                {
+                    label:'中级版',
+                    value:1
+                },
+                {
+                    label:'高级版',
+                    value:2
+                },
+              ],
+              periodList:[
+                {
+                    label:'半年',
+                    value:0
+                },
+                {
+                    label:'一年',
+                    value:1
+                },
+                {
+                    label:'三年',
+                    value:2
+                },
+              ]
           }
+      },
+      methods:{
+        onParamChange(attr,val){
+            this[attr] = val,
+            this.getPrice()
+        },
+        getPrice(){
+
+        }
       }
   }
 

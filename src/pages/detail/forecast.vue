@@ -11,7 +11,7 @@
           购买数量：
         </div>
         <div class="sales-board-line-right">
-          80
+          <v-counter></v-counter>
         </div>
       </div>
       <div class="sales-board-line">
@@ -19,7 +19,7 @@
           媒介：
         </div>
         <div class="sales-board-line-right">
-          网络
+          <v-selection :selections="medieList" @on-change="onParamChange('media',$event)"></v-selection>
         </div>
       </div>
       <div class="sales-board-line">
@@ -27,7 +27,7 @@
           有效时间：
         </div>
         <div class="sales-board-line-right">
-          一年
+          <v-chooser :selections="periodList" @on-change="onParamChange('period',$event)"></v-chooser>
         </div>
       </div>
       <div class="sales-board-line">
@@ -60,11 +60,65 @@
 </template>
 
 <script>
+  import VCounter from '../../components/base/counter.vue'
+  import VSelection from '../../components/base/selection.vue'
+  import VChooser from '../../components/base/chooser.vue'
   export default{
+      components:{
+          VCounter,
+          VSelection,
+          VChooser
+      },
       data(){
           return{
-
+            media:{},
+            period:[],
+            periodList:[
+              {
+                label:'半年',
+                value:0
+              },
+              {
+                label:'一年',
+                value:1
+              },
+              {
+                label:'三年',
+                value:2
+              },
+            ],
+            medieList:[
+              {
+                  label:'网络',
+                  value:0
+              },
+              {
+                  label:'电视',
+                  value:1
+              },
+              {
+                  label:'广播',
+                  value:2
+              },
+              {
+                  label:'报纸',
+                  value:3
+              },
+              {
+                  label:'杂志',
+                  value:4
+              },
+            ]
           }
+      },
+      methods:{
+        onParamChange(attr,val){
+            this[attr] = val,
+            this.getPrice()
+        },
+        getPrice(){
+
+        }
       }
   }
 
