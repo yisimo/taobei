@@ -11,6 +11,7 @@ import DetAnaPage from './pages/detail/analysis.vue'
 import DetCouPage from './pages/detail/count.vue'
 import DetForPage from './pages/detail/forecast.vue'
 import DetPubPage from './pages/detail/publish.vue'
+import OrderListPage from './pages/orderList.vue'
 
 Vue.use(VueRouter)
 Vue.use(VueResource)
@@ -21,6 +22,10 @@ let router = new VueRouter({
     {
       path:'/',
       component: IndexPage
+    },
+    {
+      path: '/orderList',
+      component: OrderListPage
     },
     {
       path:'/detail',
