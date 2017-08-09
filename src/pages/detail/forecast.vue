@@ -11,7 +11,7 @@
           购买数量：
         </div>
         <div class="sales-board-line-right">
-          <v-counter></v-counter>
+          <v-counter @on-change="onParamChange('buyNum',$event)"></v-counter>
         </div>
       </div>
       <div class="sales-board-line">
@@ -35,7 +35,7 @@
           总价：
         </div>
         <div class="sales-board-line-right">
-          500 元
+          {{ price }} 元
         </div>
       </div>
       <div class="sales-board-line">
@@ -63,6 +63,7 @@
   import VCounter from '../../components/base/counter.vue'
   import VSelection from '../../components/base/selection.vue'
   import VChooser from '../../components/base/chooser.vue'
+  import _ from "lodash"
   export default{
       components:{
           VCounter,
@@ -71,8 +72,10 @@
       },
       data(){
           return{
+            price:0,
+            buyNum:0,
             media:{},
-            period:[],
+            period:{},
             periodList:[
               {
                 label:'半年',
@@ -117,8 +120,22 @@
             this.getPrice()
         },
         getPrice(){
-
+            let reqParams = {
+                buyNumber : this.buyNum,
+                media : this.media.value,
+                period : this.period.value
+            }
+            this.$http.post('/api/getPrice',reqParams)
+              .then((res) => {
+                this.price = res.data.amount
+              })
         }
+      },
+      mounted(){
+          this.buyNum = 1,
+          this.media = this.medieList[0],
+          this.period = this.periodList[0],
+          this.getPrice()
       }
   }
 

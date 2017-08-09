@@ -91,20 +91,20 @@
                list:[
                  {
                    name:'数据统计',
-                   url:'https://bigdata.163yun.com/'
+                   url:'detail/count'
                  },
                  {
                    name:'数据预测',
-                   url:'https://www.umeng.com/'
+                   url:'detail/forecast'
                  },
                  {
                    name:'流量分析',
-                   url:'http://www.chinaz.com/',
+                   url:'detail/analysis',
                    hot:true,
                  },
                  {
                    name:'广告发布',
-                   url:'http://e.qq.com/ads/400'
+                   url:'detail/publish'
                  }
                ]
              },

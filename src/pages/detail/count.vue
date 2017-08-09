@@ -39,7 +39,7 @@
           总价：
         </div>
         <div class="sales-board-line-right">
-          500 元
+          {{ price }} 元
         </div>
       </div>
 
@@ -253,6 +253,7 @@
 <script>
   import VSelection from '../../components/base/selection.vue'
   import VChooser from '../../components/base/chooser.vue'
+  import _ from "lodash"
   export default{
       components:{
         VSelection,
@@ -263,6 +264,7 @@
           price:0,
           period:{},
           region:{},
+          versions:[],
           buyType:{},
           buyTypes:[
             {
@@ -326,8 +328,22 @@
             this.getPrice()
         },
         getPrice(){
-
+            let reqParams = {
+                period : this.period.value,
+                buyType : this.buyType.value,
+                region : this.region.value,
+            }
+            this.$http.post("/api/getPrice",reqParams)
+              .then((res) => {
+                this.price = res.data.amount
+              })
         }
+      },
+      mounted(){
+          this.period = this.periodList[0],
+          this.buyType = this.buyTypes[0],
+          this.region = this.regionList[0],
+          this.getPrice()
       }
 
   }

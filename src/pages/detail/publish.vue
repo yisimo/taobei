@@ -11,7 +11,7 @@
           购买数量：
         </div>
         <div class="sales-board-line-right">
-          <v-counter></v-counter>
+          <v-counter @on-change="onParamChange('buyNum', $event)"></v-counter>
         </div>
       </div>
 
@@ -20,7 +20,7 @@
           行业：
         </div>
         <div class="sales-board-line-right">
-          <v-selection :selections="industryList" @on-change="onParamChange('industry',$event)"></v-selection>
+          <v-selection :selections="industryList" @on-change="onParamChange('industry', $event)"></v-selection>
         </div>
       </div>
 
@@ -29,7 +29,7 @@
           产品版本：
         </div>
         <div class="sales-board-line-right">
-          <v-m-chooser :selections="versionList" :on-change="onParamChange('version',$event)"></v-m-chooser>
+          <v-m-chooser :selections="versionList" @on-change="onParamChange('versions', $event)"></v-m-chooser>
         </div>
       </div>
 
@@ -38,7 +38,7 @@
           有效时间：
         </div>
         <div class="sales-board-line-right">
-          <v-chooser :selections="periodList" :on-change="onParamChange('period',$event)"></v-chooser>
+          <v-chooser :selections="periodList" @on-change="onParamChange('period', $event)"></v-chooser>
         </div>
       </div>
 
@@ -47,7 +47,7 @@
           总价：
         </div>
         <div class="sales-board-line-right">
-          899 元
+          {{ price }} 元
         </div>
       </div>
 
@@ -263,94 +263,115 @@
   import VChooser from '../../components/base/chooser.vue'
   import VSelection from '../../components/base/selection.vue'
   import VMChooser from '../../components/base/multiplyChooser.vue'
+  import _ from 'lodash'
   export default{
-      components:{
-        VCounter,
-        VChooser,
-        VSelection,
-        VMChooser
-      },
-      data(){
-          return{
-            version:[],
-            versionList:[
-              {
-                label:'客户版',
-                value:0
-              },
-              {
-                label:'代理商版',
-                value:1
-              },
-              {
-                label:'专家版',
-                value:2
-              },
-            ],
-            industry:{},
-            industryList:[
-              {
-                  label:'互联网',
-                  value:0
-              },
-              {
-                  label:'咨询',
-                  value:1
-              },
-              {
-                  label:'广告',
-                  value:2
-              },
-              {
-                  label:'金融',
-                  value:3
-              },
-              {
-                  label:'保险',
-                  value:4
-              },
-            ],
-            buyType:{},
-            buyTypes:[
-              {
-                label:'入门版',
-                value:0
-              },
-              {
-                label:'中级版',
-                value:1
-              },
-              {
-                label:'高级版',
-                value:2
-              },
-            ],
-            period:[],
-            periodList:[
-              {
-                label:'半年',
-                value:0
-              },
-              {
-                label:'一年',
-                value:1
-              },
-              {
-                label:'三年',
-                value:2
-              },
-            ],
+    components: {
+      VCounter,
+      VChooser,
+      VSelection,
+      VMChooser
+    },
+    data(){
+      return {
+        price: 0,
+        buyNum: 0,
+        period: {},
+        periodList: [
+          {
+            label: '半年',
+            value: 0
+          },
+          {
+            label: '一年',
+            value: 1
+          },
+          {
+            label: '三年',
+            value: 2
           }
-      },
-      methods:{
-        onParamChange(attr,val){
-            this[attr] = val,
-            this.getPrice()
-        },
-        getPrice(){
+        ],
+        versions: [],
+        versionList: [
+          {
+            label: '客户版',
+            value: 0
+          },
+          {
+            label: '代理商版',
+            value: 1
+          },
+          {
+            label: '专家版',
+            value: 2
+          },
+        ],
+        industry: {},
+        industryList: [
+          {
+            label: '互联网',
+            value: 0
+          },
+          {
+            label: '咨询',
+            value: 1
+          },
+          {
+            label: '广告',
+            value: 2
+          },
+          {
+            label: '金融',
+            value: 3
+          },
+          {
+            label: '保险',
+            value: 4
+          },
+        ],
+        buyType: {},
+        buyTypes: [
+          {
+            label: '入门版',
+            value: 0
+          },
+          {
+            label: '中级版',
+            value: 1
+          },
+          {
+            label: '高级版',
+            value: 2
+          },
+        ],
 
-        }
       }
+    },
+    methods: {
+      onParamChange(attr, val){
+        this[attr] = val,
+          this.getPrice()
+      },
+      getPrice(){
+        let buyVersionsArray = _.map(this.versions, (item) => {
+          return item.value
+        })
+        let reqParams = {
+          buyNum: this.buyNum,
+          period: this.period.value,
+          versions: buyVersionsArray.join(',')
+        }
+        this.$http.post('/api/getPrice', reqParams)
+          .then((res) => {
+            this.price = res.data.amount
+          })
+      },
+    },
+    mounted(){
+      this.buyNum = 1,
+        this.period = this.periodList[0],
+        this.versions = [this.versionList[0]],
+        this.getPrice()
+    }
   }
 
 </script>
