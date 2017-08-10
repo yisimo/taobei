@@ -46,7 +46,7 @@
         "product": "数据统计",
         "version": "高级版",
         "period": "1年",
-        "buynum": 2,
+        "buyNum": 2,
         "date": "2017-03-28",
         "amount": "499元"
       },
@@ -55,7 +55,7 @@
         "product": "流量分析",
         "version": "户外版",
         "period": "3个月",
-        "buynum": 1,
+        "buyNum": 1,
         "date": "2017-08-1",
         "amount": "1199元"
       },
@@ -64,7 +64,7 @@
         "product": "广告发布",
         "version": "商铺版",
         "period": "3年",
-        "buynum": 12,
+        "buyNum": 12,
         "date": "2017-06-30",
         "amount": "3899元"
       }

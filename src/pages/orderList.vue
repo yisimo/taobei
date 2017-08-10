@@ -22,6 +22,45 @@
         <input type="text" class="order-query" v-model.lazy="query">
       </div>
     </div>
+    <div class="order-list-table">
+      <table>
+        <tr>
+          <th v-for="head in tableHeads" @click="changeOrderType(head)" :class="{active:head.active}">{{ head.label }}</th>
+        </tr>
+        <tr v-for="item in tableData" :key="item.period">
+          <td v-for="head in tableHeads">{{ item[head.key] }}</td>
+        </tr>
+      </table>
+    </div>
+    <my-dialog :is-show="isShowPayDialog" @on-close="hidePayDialog">
+      <table class="buy-dialog-table">
+        <tr>
+          <th>购买数量</th>
+          <th>产品类型</th>
+          <th>有效时间</th>
+          <th>产品版本</th>
+          <th>总价</th>
+        </tr>
+        <tr>
+          <td>{{ buyNum }}</td>
+          <td>{{ buyType.label }}</td>
+          <td>{{ period.label }}</td>
+          <td>
+            <span v-for="item in versions">{{ item.label }}</span>
+          </td>
+          <td>{{ price }}</td>
+        </tr>
+      </table>
+      <h3 class="buy-dialog-title">
+        请选择银行
+      </h3>
+      <bank-chooser @on-change="onChangeBanks"></bank-chooser>
+      <div class="button buy-dialog-btn" @click="confirmBuy">确认购买</div>
+    </my-dialog>
+    <my-dialog :is-show="isShowErrDialog" @on-close="hideErrDialog">
+      支付失败！
+    </my-dialog>
+    <check-order :is-show-check-dialog="isShowCheckOrder" :order-id="orderId" @on-close-check-dialog="hideCheckOrder"></check-order>
   </section>
 </template>
 
@@ -57,6 +96,38 @@
                 value: 3
               }
             ],
+            tableHeads:[
+              {
+                label: '订单号',
+                key: 'orderId'
+              },
+              {
+                label: '购买产品',
+                key: 'product'
+              },
+              {
+                label: '版本类型',
+                key: 'version'
+              },
+              {
+                label: '有效时间',
+                key: 'period'
+              },
+              {
+                label: '购买日期',
+                key: 'date'
+              },
+              {
+                label: '数量',
+                key: 'buyNum'
+              },
+              {
+                label: '总价',
+                key: 'amount'
+              }
+            ],
+            tableData:[],
+            currentOrder:'asc'
           }
       },
       watch:{
@@ -70,7 +141,18 @@
           this.getList()
         },
         getList(){
+          let reqParams = {
+            productId:this.productId,
+            startDate : this.startDate,
+            endDate : this.endDate,
+            query : this.query
+          }
+          this.$http.post('/api/getOrderList',reqParams)
+            .then((res) => {
+              this.tableData = res.data.list
+            },(err) => {
 
+            })
         },
         getStartDate(date){
             this.startDate = date,
@@ -81,8 +163,23 @@
             this.endDate = date,
             this.getList()
           console.log(this.startDate)
+        },
+        changeOrderType(headItem){
+            this.tableHeads.map((item) => {
+                item.active = false
+                return item
+            })
+            headItem.active = true
+            if(this.currentOrder === "asc"){
+                this.currentOrder = "desc"
+            }else if(this.currentOrder === "desc"){
+                this.currentOrder = "asc"
+            }
+            this.tableData = _.orderBy(this.tableData,headItem.key,this.currentOrder)
         }
-
+      },
+      mounted(){
+        this.getList()
       }
   }
 </script>
@@ -112,5 +209,29 @@
   }
   .order-list-option:first-child{
     padding-left:0;
+  }
+  .vdp-datepicker{
+    display: inline-block;
+  }
+  .order-list-table{
+    margin-top: 20px;
+  }
+  .order-list-table table{
+    background: #fff;
+    width:100%;
+  }
+  .order-list-table th,.order-list-table td{
+    text-align: center;
+    padding: 10px 0;
+    border:1px solid #e3e3e3;
+  }
+  .order-list-table th{
+    background: #4fc08d;
+    border:1px solid #4fc08d;
+    color: #fff;
+    cursor: pointer;
+  }
+  .order-list-table th.active{
+    background: #35495e;
   }
 </style>

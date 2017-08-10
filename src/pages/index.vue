@@ -35,7 +35,9 @@
           <article class="index-board-item-inner">
             <h2>{{ item.title }}</h2>
             <p>{{ item.description }}</p>
-            <div class="index-board-button">立即购买</div>
+            <div class="index-board-button">
+              <router-link class="button" :to="{path:'detail/'+item.toKey}">立即购买</router-link>
+            </div>
           </article>
         </div>
       </div>
@@ -90,17 +92,17 @@
                title:'PC产品',
                list:[
                  {
+                   name:'流量分析',
+                   url:'detail/analysis',
+                   hot:true,
+                 },
+                 {
                    name:'数据统计',
                    url:'detail/count'
                  },
                  {
                    name:'数据预测',
                    url:'detail/forecast'
-                 },
-                 {
-                   name:'流量分析',
-                   url:'detail/analysis',
-                   hot:true,
                  },
                  {
                    name:'广告发布',
@@ -114,20 +116,20 @@
                list:[
                  {
                    name: '91助手',
-                   url: 'http://weixin.com'
+                   url:'detail/count'
                  },
                  {
                    name: '产品助手',
-                   url: 'https://pro.25pp.com/',
+                   url:'detail/forecast',
                    hot:true,
                  },
                  {
                    name: '智能地图',
-                   url: 'http://maps.com'
+                   url:'detail/analysis',
                  },
                  {
                    name: '团队语音',
-                   url: 'http://phone.com'
+                   url:'detail/publish'
                  }
                ]
              }
@@ -138,21 +140,29 @@
               title:'开放产品',
               description:'开放产品是定位于所有开放产品',
               id:'car',
+              toKey:'count',
+              saleout:false
             },
             {
               title:'品牌营销',
               description:'品牌营销帮助你的产品更好地找到定位',
               id:'loud',
+              toKey:'forecast',
+              saleout:false
             },
             {
               title:'使命必达',
               description:'使命必达快速迭代永远保持最前端的速度',
               id:'earth',
+              toKey:'analysis',
+              saleout:true
             },
             {
               title:'勇攀高峰',
               description:'帮你勇闯高峰，到达事业的顶峰',
               id:'hill',
+              toKey:'publish',
+              saleout:false
             },
           ],
         }
@@ -250,12 +260,8 @@
   .line-last{
     margin-right: 0;
   }
-  .index-board-button{
+  .index-board-button {
     margin-top: 20px;
-    background: #4fc08d;
-    color: #fff;
-    padding: 10px;
-    width: 60px;
   }
   .lastest-news{
     min-height: 512px;
