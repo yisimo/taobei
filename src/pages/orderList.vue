@@ -97,21 +97,26 @@
                 key: 'amount'
               }
             ],
-            tableData:[],
+            /*tableData:[],*/
             currentOrder:'asc'
           }
       },
       watch:{
         query(){
-            this.getList()
+            this.getTableData()
           }
       },
       methods:{
         productChange(obj){
-          this.productId = obj.value
-          this.getList()
+            this.$store.commit('updateParams',{
+                key:'productId',
+                val:obj.value
+            })
+            this.$store.dispatch('fetchOrderList')
+          /*this.productId = obj.value
+          this.getTableData()*/
         },
-        getList(){
+        getTableData(){
           let reqParams = {
             productId:this.productId,
             startDate : this.startDate,
@@ -126,14 +131,22 @@
             })
         },
         getStartDate(date){
-            this.startDate = date,
-            this.getList()
-          console.log(this.startDate)
+            /*this.startDate = date,
+            this.getTableData()*/
+          this.$store.commit('updateParams',{
+            key:'startDate',
+            val:date
+          })
+          this.$store.dispatch('fetchOrderList')
         },
         getEndDate(date){
-            this.endDate = date,
-            this.getList()
-          console.log(this.startDate)
+            /*this.endDate = date,
+            this.getTableData()*/
+          this.$store.commit('updateParams',{
+            key:'endDate',
+            val:date
+          })
+          this.$store.dispatch('fetchOrderList')
         },
         changeOrderType(headItem){
             this.tableHeads.map((item) => {
@@ -150,7 +163,14 @@
         }
       },
       mounted(){
-        this.getList()
+        /*this.getTableData()
+        console.log(this.$store)*/
+        this.$store.dispatch('fetchOrderList')
+      },
+      computed:{
+          tableData(){
+              return this.$store.getters.getOrderList
+          }
       }
   }
 </script>

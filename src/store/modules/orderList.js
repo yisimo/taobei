@@ -4,7 +4,7 @@ const state = {
   params:{}
 }
 const getters = {
-  getOrderList:state => state.orderList
+  getOrderList: state => state.orderList
 }
 const actions = {
   fetchOrderList({commit,state}){
@@ -22,6 +22,7 @@ const mutations = {
   },
   updateParams(state,{key,val}){
     state.params[key] = val
+    console.log(state.params)
   }
 }
 export default{
