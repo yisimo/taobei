@@ -32,35 +32,6 @@
         </tr>
       </table>
     </div>
-    <my-dialog :is-show="isShowPayDialog" @on-close="hidePayDialog">
-      <table class="buy-dialog-table">
-        <tr>
-          <th>购买数量</th>
-          <th>产品类型</th>
-          <th>有效时间</th>
-          <th>产品版本</th>
-          <th>总价</th>
-        </tr>
-        <tr>
-          <td>{{ buyNum }}</td>
-          <td>{{ buyType.label }}</td>
-          <td>{{ period.label }}</td>
-          <td>
-            <span v-for="item in versions">{{ item.label }}</span>
-          </td>
-          <td>{{ price }}</td>
-        </tr>
-      </table>
-      <h3 class="buy-dialog-title">
-        请选择银行
-      </h3>
-      <bank-chooser @on-change="onChangeBanks"></bank-chooser>
-      <div class="button buy-dialog-btn" @click="confirmBuy">确认购买</div>
-    </my-dialog>
-    <my-dialog :is-show="isShowErrDialog" @on-close="hideErrDialog">
-      支付失败！
-    </my-dialog>
-    <check-order :is-show-check-dialog="isShowCheckOrder" :order-id="orderId" @on-close-check-dialog="hideCheckOrder"></check-order>
   </section>
 </template>
 

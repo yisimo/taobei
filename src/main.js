@@ -12,6 +12,7 @@ import DetCouPage from './pages/detail/count.vue'
 import DetForPage from './pages/detail/forecast.vue'
 import DetPubPage from './pages/detail/publish.vue'
 import OrderListPage from './pages/orderList.vue'
+import store from './store/index'
 
 Vue.use(VueRouter)
 Vue.use(VueResource)
@@ -56,6 +57,7 @@ let router = new VueRouter({
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<Layout/>',
   components: { Layout }
 })
